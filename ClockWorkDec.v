@@ -1,5 +1,5 @@
 module clockWorkDec(clk_1hz, time_in, time_out, time_ow);
-  input clk_1hz, time_ow; //1 Hz clock (clock), Time overwrite (asynchronous reset)
+  input clk_1hz, time_ow; //clock is of 1Hz plus an asynchronous time overwrite
   //Time signal format: hhhhh:mmmmmm:ssssss
   input [16:0] time_in; //time input
   output [16:0] time_out; //main output
@@ -14,7 +14,7 @@ module clockWorkDec(clk_1hz, time_in, time_out, time_ow);
   assign {hour_in, min_in, sec_in} = time_in;
   assign time_out = {hour_reg, min_reg, sec_reg};
 
-  //handle seconds
+  //for seconds
   always@(posedge clk_1hz or posedge time_ow)
     begin
       if(time_ow)
@@ -27,7 +27,7 @@ module clockWorkDec(clk_1hz, time_in, time_out, time_ow);
         end
     end
 
-  //handle minutes
+  //for minutes
   always@(posedge clk_1hz or posedge time_ow)
     begin
       if(time_ow)
@@ -43,7 +43,7 @@ module clockWorkDec(clk_1hz, time_in, time_out, time_ow);
         end
     end
 
-  //handle hours
+  //for hours
   always@(posedge clk_1hz or posedge time_ow)
     begin
       if(time_ow)
